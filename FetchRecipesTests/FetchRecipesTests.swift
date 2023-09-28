@@ -8,29 +8,83 @@
 import XCTest
 @testable import FetchRecipes
 
+// Some sample tests to indicate how I go about testing
 final class FetchRecipesTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    func testGeneralErrorAlertDetails() {
+        let error = GeneralError.unknown(error: URLError(.cancelled))
+        let alertDetails = error.alertDetails
+        
+        XCTAssertEqual(alertDetails.id, "GeneralError.unknown")
+        XCTAssertEqual(alertDetails.title, "Error")
+        XCTAssertEqual(alertDetails.userDescription, "An error occurred")
+        XCTAssertEqual(alertDetails.buttonText, "OK")
+        XCTAssertEqual(alertDetails.isRetryable, false)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testMealDetailsDecodeMismatch() {
+        let json = """
+    {
+        "idMeal": "testID",
+        "strMeal": "testMeal",
+        "strCategory": "testCategory",
+        "strInstructions": "testInstructions",
+        "strMeasure1": "matchedMeasure1",
+        "strMeasure2": "mismatchedMeasure1",
+        "strIngredient1": "matchedIngredient1",
+        "strIngredient3": "mismatchedIngredient1"
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    """
+        
+        guard let data = json.data(using: .utf8) else {
+            XCTFail("Could not convert test json to data")
+            return
         }
+        
+        var details: MealDetails
+        
+        do {
+            details = try JSONDecoder().decode(MealDetails.self, from: data)
+        } catch {
+            XCTFail("Error parsing MealDetails data")
+            return
+        }
+        
+        XCTAssertEqual(details.measurementsAndIngredients.count, 1)
+        XCTAssertEqual(details.measurementsAndIngredients.first!.0, "matchedMeasure1")
+        XCTAssertEqual(details.measurementsAndIngredients.first!.1, "matchedIngredient1")
     }
-
+    
+    func testMealDetailsDecodeDuplicate() {
+        let json = """
+    {
+        "idMeal": "testID",
+        "strMeal": "testMeal",
+        "strCategory": "testCategory",
+        "strInstructions": "testInstructions",
+        "strMeasure1": "duplicateMeasure",
+        "strMeasure2": "duplicateMeasure",
+        "strIngredient1": "duplicateIngredient",
+        "strIngredient3": "duplicateIngredient"
+    }
+    """
+        
+        guard let data = json.data(using: .utf8) else {
+            XCTFail("Could not convert test json to data")
+            return
+        }
+        
+        var details: MealDetails
+        
+        do {
+            details = try JSONDecoder().decode(MealDetails.self, from: data)
+        } catch {
+            XCTFail("Error parsing MealDetails data")
+            return
+        }
+        
+        XCTAssertEqual(details.measurementsAndIngredients.count, 1)
+        XCTAssertEqual(details.measurementsAndIngredients.first!.0, "duplicateMeasure")
+        XCTAssertEqual(details.measurementsAndIngredients.first!.1, "duplicateIngredient")
+    }
 }

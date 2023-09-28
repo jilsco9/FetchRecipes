@@ -82,6 +82,7 @@
 		A1B3912F2AC1187E00EFCC6A = {
 			isa = PBXGroup;
 			children = (
+				A1B391842AC639C600EFCC6A /* README.md */,
 				A1B3913A2AC1187E00EFCC6A /* FetchRecipes */,
 				A1B3914B2AC1187E00EFCC6A /* FetchRecipesTests */,
 				A1B391392AC1187E00EFCC6A /* Products */,
@@ -173,7 +174,6 @@
 				A1B3913B2AC1187E00EFCC6A /* FetchRecipesApp.swift */,
 				A1B3913F2AC1187E00EFCC6A /* Assets.xcassets */,
 				A1B391412AC1187E00EFCC6A /* Preview Content */,
-				A1B391842AC639C600EFCC6A /* README.md */,
 			);
 			path = App;
 			sourceTree = "<group>";

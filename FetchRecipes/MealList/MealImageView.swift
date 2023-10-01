@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MealImageView: View {
+    let errorImageName = "fork.knife"
+    let noURLImageName = "fork.knife"
     let url: URL?
     
     var body: some View {
@@ -16,7 +18,7 @@ struct MealImageView: View {
                 if let image = phase.image {
                     image.resizable()
                 } else if phase.error != nil {
-                    Image(systemName: "fork.knife")
+                    Image(systemName: errorImageName)
                         .resizable()
                         .padding()
                         .opacity(0.5)
@@ -25,7 +27,7 @@ struct MealImageView: View {
                 }
             }
         } else {
-            Image(systemName: "fork.knife")
+            Image(systemName: noURLImageName)
                 .resizable()
                 .padding()
                 .opacity(0.5)

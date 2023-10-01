@@ -10,6 +10,7 @@ import SwiftUI
 struct MealListView: View {
     @EnvironmentObject var mealProvider: MealProvider
     @State private var alertDetails: AlertDetails?
+    @State private var alertPresented: Bool = false
     let category = Category.dessert
     
     var body: some View {
@@ -24,7 +25,7 @@ struct MealListView: View {
                 }
             }
             .listStyle(.inset)
-            .navigationTitle("Category: \(category.rawValue)")
+            .navigationTitle("Category: \(category.name)")
             .refreshable {
                 do {
                     try await mealProvider.getMealsForCategory(category)
@@ -40,9 +41,13 @@ struct MealListView: View {
                 self.alertDetails = AlertDetails.getAlertDetails(from: error)
             }
         }
-        .alert(item: $alertDetails) { alertDetails in
-            alertDetails.alert
-        }
+        .alert("Error", isPresented: $alertPresented, presenting: alertDetails, actions: { _ in
+            Button("OK") {
+                
+            }
+        }, message: { alertDetails in
+            Text(alertDetails.userDescription)
+        })
     }
 }
 
@@ -60,7 +65,13 @@ struct MealListItemView: View {
 
 struct MealListView_Previews: PreviewProvider {
     static var previews: some View {
-        MealListView()
-            .environmentObject(MealProvider())
+        Group {
+            MealListView()
+                .environmentObject(MealProvider())
+                .environment(\.locale, .init(identifier: "en"))
+            MealListView()
+                .environmentObject(MealProvider())
+                .environment(\.locale, .init(identifier: "fr"))
+        }
     }
 }

@@ -25,6 +25,9 @@
 		A1B3917D2AC5E17100EFCC6A /* TagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B3917C2AC5E17100EFCC6A /* TagsView.swift */; };
 		A1B391802AC6301800EFCC6A /* AlertDetails+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B3917F2AC6301800EFCC6A /* AlertDetails+Alert.swift */; };
 		A1B391822AC6305900EFCC6A /* AlertDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B391812AC6305900EFCC6A /* AlertDetails.swift */; };
+		A1B391872AC9D31D00EFCC6A /* FetchRecipes-InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1B391852AC9D31D00EFCC6A /* FetchRecipes-InfoPlist.strings */; };
+		A1B3918A2AC9D31D00EFCC6A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1B391882AC9D31D00EFCC6A /* Localizable.strings */; };
+		A1B3918C2AC9E18100EFCC6A /* MealDetailText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B3918B2AC9E18100EFCC6A /* MealDetailText.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +62,9 @@
 		A1B3917F2AC6301800EFCC6A /* AlertDetails+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlertDetails+Alert.swift"; sourceTree = "<group>"; };
 		A1B391812AC6305900EFCC6A /* AlertDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDetails.swift; sourceTree = "<group>"; };
 		A1B391842AC639C600EFCC6A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A1B391862AC9D31D00EFCC6A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = "fr.lproj/FetchRecipes-InfoPlist.strings"; sourceTree = "<group>"; };
+		A1B391892AC9D31D00EFCC6A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A1B3918B2AC9E18100EFCC6A /* MealDetailText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetailText.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +88,8 @@
 		A1B3912F2AC1187E00EFCC6A = {
 			isa = PBXGroup;
 			children = (
+				A1B391882AC9D31D00EFCC6A /* Localizable.strings */,
+				A1B391852AC9D31D00EFCC6A /* FetchRecipes-InfoPlist.strings */,
 				A1B391842AC639C600EFCC6A /* README.md */,
 				A1B3913A2AC1187E00EFCC6A /* FetchRecipes */,
 				A1B3914B2AC1187E00EFCC6A /* FetchRecipesTests */,
@@ -154,6 +162,7 @@
 				A1B391742AC3448000EFCC6A /* MealDetailView.swift */,
 				A1B3917A2AC5DADB00EFCC6A /* MealImageView.swift */,
 				A1B3917C2AC5E17100EFCC6A /* TagsView.swift */,
+				A1B3918B2AC9E18100EFCC6A /* MealDetailText.swift */,
 			);
 			path = MealList;
 			sourceTree = "<group>";
@@ -242,6 +251,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = A1B3912F2AC1187E00EFCC6A;
 			productRefGroup = A1B391392AC1187E00EFCC6A /* Products */;
@@ -260,6 +270,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1B391432AC1187E00EFCC6A /* Preview Assets.xcassets in Resources */,
+				A1B3918A2AC9D31D00EFCC6A /* Localizable.strings in Resources */,
+				A1B391872AC9D31D00EFCC6A /* FetchRecipes-InfoPlist.strings in Resources */,
 				A1B391402AC1187E00EFCC6A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,6 +296,7 @@
 				A1B391822AC6305900EFCC6A /* AlertDetails.swift in Sources */,
 				A1B3917B2AC5DADB00EFCC6A /* MealImageView.swift in Sources */,
 				A1B391732AC22F5100EFCC6A /* Endpoint.swift in Sources */,
+				A1B3918C2AC9E18100EFCC6A /* MealDetailText.swift in Sources */,
 				A1B3917D2AC5E17100EFCC6A /* TagsView.swift in Sources */,
 				A1B3916A2AC21D2500EFCC6A /* MealClient.swift in Sources */,
 				A1B3916E2AC21F1A00EFCC6A /* AppError.swift in Sources */,
@@ -313,6 +326,27 @@
 			targetProxy = A1B391492AC1187E00EFCC6A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A1B391852AC9D31D00EFCC6A /* FetchRecipes-InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A1B391862AC9D31D00EFCC6A /* fr */,
+			);
+			name = "FetchRecipes-InfoPlist.strings";
+			path = FetchRecipes/App;
+			sourceTree = "<group>";
+		};
+		A1B391882AC9D31D00EFCC6A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A1B391892AC9D31D00EFCC6A /* fr */,
+			);
+			name = Localizable.strings;
+			path = FetchRecipes/App;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A1B3915A2AC1187E00EFCC6A /* Debug */ = {

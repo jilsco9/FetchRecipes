@@ -51,12 +51,12 @@ actor MealClient {
             switch self {
             case .serverError(let code):
                 if let code = code {
-                    return "Server error \(code)"
+                    return String(localized: "Server error \(code)", comment: "A server error with an error code")
                 } else {
-                    return "Server error"
+                    return String(localized: "Server error", comment: "A general server error")
                 }
             case .parseError:
-                return "Error reading data"
+                return String(localized: "Error reading data", comment: "An error parsing received data")
             }
         }
     }

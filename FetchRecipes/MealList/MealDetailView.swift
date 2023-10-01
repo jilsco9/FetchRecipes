@@ -10,8 +10,23 @@ import SwiftUI
 struct MealDetailView: View {
     var meal: Meal
     @EnvironmentObject private var mealProvider: MealProvider
-    @State private var mealDetails: MealDetails? = nil
+    @State private var mealDetails: MealDetails?
     @State private var alertDetails: AlertDetails?
+    @State private var alertPresented: Bool = false
+    
+    func fetchMealDetails() async {
+        guard mealDetails == nil else { return }
+        if let mealDetails = meal.details {
+            self.mealDetails = mealDetails
+        } else {
+            do {
+                self.mealDetails = try await mealProvider.getMealDetails(meal: meal)
+            } catch {
+                self.alertPresented = true
+                self.alertDetails = AlertDetails.getAlertDetails(from: error)
+            }
+        }
+    }
     
     var body: some View {
         ScrollView {
@@ -39,21 +54,15 @@ struct MealDetailView: View {
             .padding([.leading, .trailing])
         }
         .task {
-            if self.mealDetails == nil {
-                if let mealDetails = meal.details {
-                    self.mealDetails = mealDetails
-                } else {
-                    do {
-                        self.mealDetails = try await mealProvider.getMealDetails(meal: meal)
-                    } catch {
-                        self.alertDetails = AlertDetails.getAlertDetails(from: error)
-                    }
-                }
+            await fetchMealDetails()
+        }
+        .alert("Error", isPresented: $alertPresented, presenting: alertDetails, actions: { _ in
+            Button("OK") {
+                alertDetails = nil
             }
-        }
-        .alert(item: $alertDetails) { alertDetails in
-            alertDetails.alert
-        }
+        }, message: { alertDetails in
+            Text(alertDetails.userDescription)
+        })
     }
 }
 
@@ -64,22 +73,22 @@ struct MealDetailsHeaderStack: View {
         VStack {
             TagsView(tags: mealDetails.tags)
             
-            OptionalTextView(description: "Category", text: mealDetails.categoryString)
+            OptionalTextView(text: .category(data:  Category.getNameAndLocalizeIfPossible(for: mealDetails.categoryString)))
                 .font(.headline)
             
-            OptionalTextView(description: "Origin", text: mealDetails.areaOfOrigin)
+            OptionalTextView(text: .origin(data: mealDetails.areaOfOrigin))
                 .font(.headline)
             
             VStack {
                 MealImageView(url: mealDetails.thumbnailSource)
                     .frame(width: 200, height: 200)
                 
-                OptionalTextView(description: "Image Source", text: mealDetails.imageSource?.absoluteString)
+                OptionalTextView(text: .imageSource(data: mealDetails.imageSource?.absoluteString))
                     .font(.caption)
             }
             .padding([.top, .bottom])
             
-            OptionalTextView(description: "Drink Alternate", text: mealDetails.drinkAlternate)
+            OptionalTextView(text: .drinkAlternate(data: mealDetails.drinkAlternate))
             
             ForEach(mealDetails.measurementsAndIngredients, id: \.1) { (measurement, ingredient) in
                 HStack {
@@ -119,22 +128,18 @@ struct MealDetailsMoreInfoStack: View {
                 .font(.title3)
                 .padding(4)
             
-            OptionalURLView(description: "Recipe source", url: mealDetails.recipeSource)
-
-            OptionalURLView(description: "Watch a video", url: mealDetails.youtubePath)
+            OptionalURLView(text: .recipeSource(data: mealDetails.recipeSource), url: mealDetails.recipeSource)
+            
+            OptionalURLView(text: .watchAVideo(data: mealDetails.youtubePath), url: mealDetails.youtubePath)
         }
     }
 }
 
 struct OptionalTextView: View {
-    let description: String?
-    let text: String?
+    let text: DetailText
     
     var body: some View {
-        if let description = description, let text = text {
-            Text("\(description): \(text)")
-                .padding(2)
-        } else if let text = text {
+        if let text = text.dataWithDescription {
             Text(text)
                 .padding(2)
         }
@@ -142,15 +147,13 @@ struct OptionalTextView: View {
 }
 
 struct OptionalURLView: View {
-    let description: String?
+    let text: DetailText
     let url: URL?
     
     var body: some View {
-        if let description = description, let url = url {
-            Link("\(description): \(url.absoluteString)", destination: url)
-                .padding(2)
-        } else if let url = url {
-            Link(url.absoluteString, destination: url)
+        if let url = url,
+            let text = text.dataWithDescription {
+            Link(text, destination: url)
                 .padding(2)
         }
     }
@@ -158,7 +161,26 @@ struct OptionalURLView: View {
 
 struct MealDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        MealDetailView(meal: Meal(id: "MealPreviewID", name: "MealPreview Name", thumbnailPath: ""))
+        Group {
+            MealDetailView(
+                meal: Meal(
+                    id: "MealPreviewID",
+                    name: "MealPreview Name",
+                    thumbnailPath: ""
+                )
+            )
             .environmentObject(MealProvider())
+            .environment(\.locale, .init(identifier: "en"))
+            
+            MealDetailView(
+                meal: Meal(
+                    id: "MealPreviewID",
+                    name: "MealPreview Name",
+                    thumbnailPath: ""
+                )
+            )
+            .environmentObject(MealProvider())
+            .environment(\.locale, .init(identifier: "fr"))
+        }
     }
 }

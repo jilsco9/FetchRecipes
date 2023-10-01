@@ -32,7 +32,7 @@ struct Endpoint {
         var userDescription: String {
             switch self {
             case .invalidURL:
-                return "Invalid URL"
+                return String(localized: "Invalid URL", comment: "An error for an invalid URL")
             }
         }
     }

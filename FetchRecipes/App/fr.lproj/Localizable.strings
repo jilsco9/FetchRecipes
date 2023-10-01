@@ -1,0 +1,30 @@
+/* Text for a general or unknown error */
+"An error occurred" = "Une erreur s'est produite";
+
+/* A meal's category data with description */
+"Category: %@" = "Catégorie : %@";
+
+/* The name of the dessert category. */
+"Dessert" = "Desserts";
+
+/* A meal's drink alternate data with description */
+"Drink alternate: %@" = "Boisson alternative : %@";
+
+/* A meal's image source data with description */
+"Image source: %@" = "Source de l'image : %@";
+
+/* No comment provided by engineer. */
+"Instructions:" = "Instructions :";
+
+/* No comment provided by engineer. */
+"More information:" = "Plus d'informations :";
+
+/* A meal's category data with description */
+"Origin: %@" = "Origine : %@";
+
+/* A meal's recipe source data with description */
+"Recipe source: %@" = "Source de la recette : %@";
+
+/* A meal's video source data with description */
+"Watch a video: %@" = "Regarder une vidéo : %@";
+
